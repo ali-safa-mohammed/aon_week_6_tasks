@@ -4,6 +4,7 @@ const {
   getPlans,
   getPlanById,
   purchase,
+  getStockSummary,
 } = require("../controllers/planController");
 const clientAuth = require("../middleware/clientAuth");
 
@@ -41,4 +42,13 @@ router.post("/purchase", clientAuth, async (req, res) => {
   }
 });
 
+router.get("/:id/stock", async (req, res) => {
+  try {
+    const planId = parseInt(req.params.id);
+    const results = await getStockSummary(planId);
+    res.send(results);
+  } catch (error) {
+    res.status(500).send({ message: "problem with getting stock summary" });
+  }
+});
 module.exports = router;

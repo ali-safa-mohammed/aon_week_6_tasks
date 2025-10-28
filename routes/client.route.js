@@ -4,6 +4,7 @@ const {
   register,
   login,
   getClientBalance,
+  topUpClientBalance,
 } = require("../controllers/clientController");
 
 router.post("/register", async (req, res) => {
@@ -43,4 +44,22 @@ router.get("/:id/balance", async (req, res) => {
   }
 });
 
+router.post("/:id/topup", async (req, res) => {
+  try {
+    const clientId = req.params.id;
+    const amount = req.body.amount;
+
+    const client = await getClientBalance(clientId);
+    const oldBalance = client.balance;
+
+    await topUpClientBalance(clientId, amount);
+
+    const updatedClient = await getClientBalance(clientId);
+    const newBalance = updatedClient.balance;
+
+    res.send({ id: clientId, oldBalance, newBalance });
+  } catch (error) {
+    res.status(500).send({ message: "problem with topping up balance" });
+  }
+});
 module.exports = router;

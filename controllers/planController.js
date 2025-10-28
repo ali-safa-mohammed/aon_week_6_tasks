@@ -54,8 +54,25 @@ const purchase = async (planId, clientId) => {
   return { success: true, code: stock.code, newInvoice };
 };
 
+const getStockSummary = async (planId) => {
+  const { rows } = await db.query(`
+    SELECT 
+      plan.id AS "planId", 
+      plan.name AS "planName",
+      SUM(CASE WHEN stock.state = 'ready' THEN 1 ELSE 0 END) AS ready,
+      SUM(CASE WHEN stock.state = 'sold' THEN 1 ELSE 0 END) AS sold,
+      SUM(CASE WHEN stock.state = 'error' THEN 1 ELSE 0 END) AS error
+    FROM plan
+    LEFT JOIN stock ON plan.id = stock.plan_id
+    WHERE plan.id = ${planId}
+    GROUP BY plan.id, plan.name
+  `);
+  return rows[0];
+};
+
 module.exports = {
   getPlans,
   getPlanById,
   purchase,
+  getStockSummary,
 };

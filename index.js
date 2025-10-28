@@ -47,22 +47,33 @@ process.on("SIGINT", async () => {
 // 3️⃣ GET /stock/sold
 //    ➤ Purpose: Count sold cards for each plan.
 //
+//done in stockController.js and stock.route.js
+
+
 // 4️⃣ GET /plans
 //    ➤ Purpose: Return all available plans.
+//done in plantController.js and plan.route.js
+
 //
 // 5️⃣ GET /plans/:id/stock
 //    ➤ Purpose: Show stock summary for a single plan (ready/sold/error counts).
 //    ➤ Response Example:
 //        { planId, planName, ready, sold, error }
+//done in planController.js and plan.route.js
+
 //
 // 6️⃣ POST /client/:id/topup
 //    ➤ Purpose: Add funds to a client’s wallet.
 //    ➤ Body: { amount }
 //    ➤ Response: { id, oldBalance, newBalance }
+//done in clientController.js and client.route.js
+
 //
 // 7️⃣ GET /invoice/client/:id
 //    ➤ Purpose: Return recent invoices for one client (limit 50).
-//
+//done in invoiceController.js and invoice.route.js
+
+
 // 8️⃣ POST /stock/batch
 //    ➤ Purpose: Insert multiple card codes for one plan.
 //    ➤ Body: { planId, codes: ["...", "..."] }

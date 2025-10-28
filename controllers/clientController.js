@@ -55,8 +55,20 @@ const getClientBalance = async (id) => {
   }
 };
 
+
+const topUpClientBalance = async (id, amount) => {
+  const client = await getClientBalance(id);
+  const oldBalance = client.balance;
+
+  await db.query(`UPDATE client SET balance = balance + ${amount} WHERE id = ${id}`);
+
+  const newBalance = oldBalance + amount;
+  return { id, oldBalance, newBalance };
+};
+
 module.exports = {
   register,
   login,
   getClientBalance,
+  topUpClientBalance,
 };
